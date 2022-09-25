@@ -150,7 +150,7 @@ def tickers_api2():
         print(percentileList[f]["Total"])
 #         percentileList.append(perDict)
     percentileList.sort(key=lambda x: x["Total"], reverse=True)
-    for f in range(50):
+    for f in range(Pages):
         percentileList[f]["Total"]=str(percentileList[f]["Total"])
     
     return render_template('home.html',dataLists=percentileList)
