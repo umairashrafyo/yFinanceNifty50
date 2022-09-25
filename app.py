@@ -62,11 +62,11 @@ symbolsList=['ADANIPORTS.NS',
     
 
 
-
+#Render the homepage without any stock data
 @app.route('/')
 def homePage():
     return render_template('home.html')
-
+#Render the homepage with raw stock data
 @app.route('/tickers_api',methods=['POST','GET'])
 def tickers_api():
     # Page = int(request.form['projectFilepath'])
@@ -89,7 +89,7 @@ def tickers_api():
         
         dataList.append(infoDict)
     return render_template('home.html',data=dataList)
-
+#Render the homepage with percentile ranking of stock data
 @app.route('/tickers_api2',methods=['POST','GET'])
 def tickers_api2():
     # Pages = int(request.form.get("pages"))
@@ -97,7 +97,7 @@ def tickers_api2():
     Pages=int(request.form.get('projectFile', "1"))
     # Pages = int(request.form['projectFile'])
     print("Pages",Pages)
-    for i in range(50):
+    for i in range(Pages):
         infoDict=dict()
         
         keys=["companyName","1monthChange","52WeekChange","profitMargins","earningsGrowth"]
@@ -114,16 +114,16 @@ def tickers_api2():
         
         dataList.append(infoDict)    
     percentileList=[]
-    for k in range(len(dataList)):
+    for k in range(Pages):
         lst=[]  
         perDict=dict()
         for n in dataList[k].keys():
             if n!="companyName":
                 rank=0
                 value=dataList[k][n]
-                total=50
+                total=Pages
                 if value!=None:
-                    for j in range(50):
+                    for j in range(Pages):
 
 
                         compareWith=dataList[j][n]
@@ -143,7 +143,7 @@ def tickers_api2():
             else:
                 perDict[n]=symbolsList[k]
         percentileList.append(perDict)
-    for f in range(50):
+    for f in range(Pages):
         percentileList[f]["Total"]=float(percentileList[f]["1monthChange"])+float(percentileList[f]["52WeekChange"])+float(percentileList[f]["profitMargins"])+float(percentileList[f]["earningsGrowth"])
         # percentileList[f]["companyName"]=symbolsList[f]
 #         percentileList[f]["Total"]=str(percentileList[f]["Total"])
@@ -153,7 +153,7 @@ def tickers_api2():
     for f in range(50):
         percentileList[f]["Total"]=str(percentileList[f]["Total"])
     
-    return render_template('home.html',dataLists=percentileList[:Pages])
+    return render_template('home.html',dataLists=percentileList)
 
 
 if __name__=='__main__':
