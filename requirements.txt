@@ -2,7 +2,6 @@ Flask
 pandas
 numpy
 yfinance
-os
 gunicorn
 pickle
 
