@@ -2,4 +2,7 @@ Flask
 pandas
 numpy
 yfinance
-Jinja2
+os
+gunicorn
+pickle
+
